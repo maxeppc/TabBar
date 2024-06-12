@@ -96,6 +96,9 @@ public struct TabBar<TabItem: Tabbable, Content: View>: View {
                         )
                     }
                 )
+                .transaction { transation in
+                    transation.animation = nil
+                }
             }
             .frame(maxWidth: .infinity)
         }
