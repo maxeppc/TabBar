@@ -82,16 +82,20 @@ public struct TabBar<TabItem: Tabbable, Content: View>: View {
     private var tabItems: some View {
         HStack {
             ForEach(self.items, id: \.self) { item in
-                self.tabItemStyle.tabItem(
-                    icon: item.icon,
-                    selectedIcon: item.selectedIcon,
-                    title: item.title,
-                    isSelected: self.selectedItem.selection == item
+                Button(
+                    action: {
+                        self.selectedItem.selection = item
+                        self.selectedItem.objectWillChange.send()
+                    },
+                    label: {
+                        self.tabItemStyle.tabItem(
+                            icon: item.icon,
+                            selectedIcon: item.selectedIcon,
+                            title: item.title,
+                            isSelected: self.selectedItem.selection == item
+                        )
+                    }
                 )
-                .onTapGesture {
-                    self.selectedItem.selection = item
-                    self.selectedItem.objectWillChange.send()
-                }
             }
             .frame(maxWidth: .infinity)
         }
